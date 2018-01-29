@@ -42,11 +42,14 @@ public class CheckerboardFXMLController implements Initializable {
     }
     
     public void start(Stage stage){
+        //retrieve stage from main java file
         this.stage = stage;
         
+        //create lambda expression for changelisteners for calculating the stage size and rectangle sizes
         ChangeListener<Number> lambdaChangeListener = (ObservableValue<? extends Number> observable, Number oldValue, final Number newValue) -> {
             refresh();
         };
+        //add changelisteners to stage and checkerboard Anchorpane
         this.stage.widthProperty().addListener(lambdaChangeListener);
         this.stage.heightProperty().addListener(lambdaChangeListener);
         this.checkerboard.widthProperty().addListener(lambdaChangeListener);
@@ -56,10 +59,11 @@ public class CheckerboardFXMLController implements Initializable {
     }
     
     private void refresh(){
-//        setBoxSize(8.0);
+        //clear checkerboard Anchorpane and remove it from stage
         checkerboard.getChildren().clear();
         this.vbox.getChildren().remove(1);
 
+        //select color for constructor based on selected color scheme. Load new anchorpane and set checkerboard equal to new pane
         if(colorScheme.equals("Default")){
             Checkerboard newBoard = new Checkerboard(this.gridSize, this.gridSize, this.stage.getWidth(), this.vbox.getHeight() - 32 , Color.RED, Color.BLACK);
             newBoard.build();
@@ -69,14 +73,12 @@ public class CheckerboardFXMLController implements Initializable {
             newBoard.build();
             checkerboard = newBoard.getBoard();
         }
-        //checkerboard = newBoard.getBoard();
         
 //        this.vbox.getChildren().add(newBoard.getBoard());
         vbox.getChildren().add(checkerboard);
-        System.out.println("Size of stage: " + stage.getWidth() + ":" + stage.getHeight());
-        System.out.println("Size of pane: " + checkerboard.getWidth() + ":" + checkerboard.getHeight());
     }
     
+    //handle different grid sizes
     @FXML
     private void handle3x3(ActionEvent event){
         this.gridSize = 3;
@@ -101,6 +103,7 @@ public class CheckerboardFXMLController implements Initializable {
         refresh();
     }
     
+    //handle color schemes
     @FXML
     private void handleDefaultColor(ActionEvent event){
         this.colorScheme = "Default";

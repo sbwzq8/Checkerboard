@@ -20,6 +20,7 @@ import javafx.stage.Stage;
  */
 public class Checkerboard extends Application {
     
+    //fields
     private AnchorPane pane;
     private int numRows;
     private int numCols;
@@ -30,9 +31,11 @@ public class Checkerboard extends Application {
     private double rectangleWidth;
     private double rectangleHeight;
     
+    //default no arg constructor
     public Checkerboard(){
         
     }
+    
     Checkerboard(int numRows, int numCols, double boardWidth, double boardHeight){
         this.numRows = numRows;
         this.numCols = numCols;
@@ -48,27 +51,25 @@ public class Checkerboard extends Application {
         this.darkColor = darkColor;
     }
     
-    CheckerboardFXMLController checkerboard = new CheckerboardFXMLController();
-    
     @Override
     public void start(Stage stage) throws Exception {
+        //create fxmlLoader instance
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CheckerboardFXML.fxml"));
         Parent root = loader.load();
         CheckerboardFXMLController controller = loader.getController();
-//        Parent root = FXMLLoader.load(getClass().getResource("CheckerboardFXML.fxml"));
         
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        //call controller start method to create changelisteners
         controller.start(stage);
     }
     
     public AnchorPane build(){
-        //AnchorPane newPane = new AnchorPane();
+        //create new anchorpane
         pane = new AnchorPane();
-//        Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, Color.RED);
-//        rectangle.setX(this.rectangleWidth);
-//        pane.getChildren().add(rectangle);
+
+        //create rectangles for grid. If row and column are both even or both odd, set it to light color. else set rectangle to dark color. set rectangle to coordinates
         for(int row = 0; row < numRows; row++){
             for(int column = 0; column < numCols; column++){
                 if((row % 2 == 0 && column %2 == 0) || (row % 2 != 0 && column % 2 != 0)){
@@ -84,10 +85,12 @@ public class Checkerboard extends Application {
                 }
             }
         }
+        //return pane. Dunno why this method has a return type. Seems redundant with getBoard()
         return pane;
     }
     
     public AnchorPane getBoard(){
+        //if anchorpane is not null, send it!
         if(pane != null){
             return pane;
         }
