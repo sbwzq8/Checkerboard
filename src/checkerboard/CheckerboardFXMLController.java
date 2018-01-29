@@ -12,13 +12,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.effect.BlendMode;
+import javafx.geometry.Pos;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
@@ -28,15 +26,15 @@ import javafx.stage.Stage;
  */
 public class CheckerboardFXMLController implements Initializable {
     
-    @FXML private AnchorPane checkerboard;
     @FXML private VBox vbox;
+    @FXML private MenuBar menuBar;
+    @FXML private AnchorPane checkerboard;
+    
     
     private Stage stage;
     
     private int gridSize = 8;
-    private String colorScheme;
-    private double rectangleHeight;
-    private double rectangleWidth;
+    private String colorScheme = "Default";
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -58,19 +56,25 @@ public class CheckerboardFXMLController implements Initializable {
     }
     
     private void refresh(){
-        
-//        this.checkerboard.getChildren().clear();
-        setBoxSize(8.0);
+//        setBoxSize(8.0);
         checkerboard.getChildren().clear();
         this.vbox.getChildren().remove(1);
 
-        Checkerboard newBoard = new Checkerboard(this.gridSize, this.gridSize, this.checkerboard.getWidth(), this.checkerboard.getHeight());
-        newBoard.build();
-        checkerboard = newBoard.getBoard();
-        //this.vbox.getChildren().add(newBoard.getBoard());
+        if(colorScheme.equals("Default")){
+            Checkerboard newBoard = new Checkerboard(this.gridSize, this.gridSize, this.stage.getWidth(), this.vbox.getHeight() - 32 , Color.RED, Color.BLACK);
+            newBoard.build();
+            checkerboard = newBoard.getBoard();
+        }else{
+            Checkerboard newBoard = new Checkerboard(this.gridSize, this.gridSize, this.stage.getWidth(), this.vbox.getHeight() - 32 , Color.SKYBLUE, Color.DARKBLUE);
+            newBoard.build();
+            checkerboard = newBoard.getBoard();
+        }
+        //checkerboard = newBoard.getBoard();
+        
+//        this.vbox.getChildren().add(newBoard.getBoard());
         vbox.getChildren().add(checkerboard);
-        System.out.println("Size of stage: " + stage.getWidth());
-        System.out.println("Size of pane: " + checkerboard.getWidth());
+        System.out.println("Size of stage: " + stage.getWidth() + ":" + stage.getHeight());
+        System.out.println("Size of pane: " + checkerboard.getWidth() + ":" + checkerboard.getHeight());
     }
     
     @FXML
@@ -107,10 +111,5 @@ public class CheckerboardFXMLController implements Initializable {
     private void handleBlueColor(ActionEvent event){
         this.colorScheme = "Blue";
         refresh();
-    }
-    
-    private void setBoxSize(double gridSize){
-        this.rectangleWidth = this.checkerboard.getWidth() / gridSize;
-        this.rectangleHeight = this.checkerboard.getHeight() / gridSize;
     }
 }

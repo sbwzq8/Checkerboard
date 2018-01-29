@@ -66,35 +66,24 @@ public class Checkerboard extends Application {
     public AnchorPane build(){
         //AnchorPane newPane = new AnchorPane();
         pane = new AnchorPane();
-//        for(int i = 0; i < numCols; i = i+2){
-//            Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, Color.RED);
-//            rectangle.setX(this.rectangleWidth * i);
-//            pane.getChildren().add(rectangle);
-//        }
-//        for(int i = 1; i < numCols; i = i+2){
-//            Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, Color.BLACK);
-//            rectangle.setX(this.rectangleWidth * i);
-//            pane.getChildren().add(rectangle);
-//        }
 //        Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, Color.RED);
 //        rectangle.setX(this.rectangleWidth);
 //        pane.getChildren().add(rectangle);
         for(int row = 0; row < numRows; row++){
             for(int column = 0; column < numCols; column++){
                 if((row % 2 == 0 && column %2 == 0) || (row % 2 != 0 && column % 2 != 0)){
-                    Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, Color.RED);
+                    Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, lightColor);
                     rectangle.setX(this.rectangleWidth * column);
                     rectangle.setY(this.rectangleHeight * row);
                     pane.getChildren().add(rectangle);
                 }else{
-                    Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, Color.BLACK);
+                    Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, darkColor);
                     rectangle.setX(this.rectangleWidth * column);
                     rectangle.setY(this.rectangleHeight * row);
                     pane.getChildren().add(rectangle);
                 }
             }
         }
-        
         return pane;
     }
     
