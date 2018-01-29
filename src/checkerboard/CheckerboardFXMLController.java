@@ -9,9 +9,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -24,12 +28,12 @@ import javafx.stage.Stage;
  */
 public class CheckerboardFXMLController implements Initializable {
     
-    @FXML private VBox vbox;
     @FXML private AnchorPane checkerboard;
+    @FXML private VBox vbox;
     
     private Stage stage;
     
-    private double gridSize;
+    private int gridSize = 8;
     private String colorScheme;
     private double rectangleHeight;
     private double rectangleWidth;
@@ -37,11 +41,6 @@ public class CheckerboardFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
-
-    public void viewDidLoad(){
-        //btn.setText(Double.toString(checkerboard.getHeight()));
-        //btn.setText("Poop");
     }
     
     public void start(Stage stage){
@@ -51,26 +50,67 @@ public class CheckerboardFXMLController implements Initializable {
             refresh();
         };
         this.stage.widthProperty().addListener(lambdaChangeListener);
-        this.stage.widthProperty().addListener(lambdaChangeListener);
+        this.stage.heightProperty().addListener(lambdaChangeListener);
+        this.checkerboard.widthProperty().addListener(lambdaChangeListener);
+        this.checkerboard.heightProperty().addListener(lambdaChangeListener);
+        
         refresh();
     }
     
     private void refresh(){
-        System.out.println(this.stage.getWidth());
-        this.checkerboard.getChildren().clear();
-        setBoxSize(8.0);
-        for(int i=0; i<64; i++){
-            Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, Color.RED);
-            this.checkerboard.getChildren().add(0, rectangle);
-        }
         
-//        Rectangle rectangle = new Rectangle(this.rectangleWidth, this.rectangleHeight, Color.RED);
-//        this.checkerboard.getChildren().add(rectangle,1,1);
+//        this.checkerboard.getChildren().clear();
+        setBoxSize(8.0);
+        checkerboard.getChildren().clear();
+        this.vbox.getChildren().remove(1);
+
+        Checkerboard newBoard = new Checkerboard(this.gridSize, this.gridSize, this.checkerboard.getWidth(), this.checkerboard.getHeight());
+        newBoard.build();
+        checkerboard = newBoard.getBoard();
+        //this.vbox.getChildren().add(newBoard.getBoard());
+        vbox.getChildren().add(checkerboard);
+        System.out.println("Size of stage: " + stage.getWidth());
+        System.out.println("Size of pane: " + checkerboard.getWidth());
+    }
+    
+    @FXML
+    private void handle3x3(ActionEvent event){
+        this.gridSize = 3;
+        refresh();
+    }
+    
+    @FXML
+    private void handle8x8(ActionEvent event){
+        this.gridSize = 8;
+        refresh();
+    }
+    
+    @FXML
+    private void handle10x10(ActionEvent event){
+        this.gridSize = 10;
+        refresh();
+    }
+    
+    @FXML
+    private void handle16x16(ActionEvent event){
+        this.gridSize = 16;
+        refresh();
+    }
+    
+    @FXML
+    private void handleDefaultColor(ActionEvent event){
+        this.colorScheme = "Default";
+        refresh();
+    }
+    
+    @FXML
+    private void handleBlueColor(ActionEvent event){
+        this.colorScheme = "Blue";
+        refresh();
     }
     
     private void setBoxSize(double gridSize){
-        this.rectangleWidth = this.stage.getWidth() / gridSize;
-        this.rectangleHeight = this.stage.getHeight() / gridSize;
-        
+        this.rectangleWidth = this.checkerboard.getWidth() / gridSize;
+        this.rectangleHeight = this.checkerboard.getHeight() / gridSize;
     }
 }
