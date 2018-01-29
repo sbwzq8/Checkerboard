@@ -17,14 +17,19 @@ import javafx.stage.Stage;
  */
 public class Checkerboard extends Application {
     
+    CheckerboardFXMLController checkerboard = new CheckerboardFXMLController();
+    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("CheckerboardFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CheckerboardFXML.fxml"));
+        Parent root = loader.load();
+        CheckerboardFXMLController controller = loader.getController();
+//        Parent root = FXMLLoader.load(getClass().getResource("CheckerboardFXML.fxml"));
         
         Scene scene = new Scene(root);
-        
         stage.setScene(scene);
         stage.show();
+        controller.start(stage);
     }
 
     /**
