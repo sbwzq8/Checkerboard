@@ -59,37 +59,32 @@ public class CheckerboardFXMLController implements Initializable {
     }
     
     private void refresh(){
-        //clear checkerboard Anchorpane and remove it from stage
+        //clear checkerboard Anchorpane and remove it from vbox
         checkerboard.getChildren().clear();
         this.vbox.getChildren().remove(1);
         
         Color lightColor = Color.RED;
         Color darkColor = Color.BLACK;
         
-        //select color for constructor based on selected color scheme. Load new anchorpane and set checkerboard equal to returned anchorpane. Height for pane is vbox height minus height of menubar
+        //select color for constructor based on selected color scheme.
         if(!colorScheme.equals("Default")){
             lightColor = Color.SKYBLUE;
             darkColor = Color.DARKBLUE;
         }
+        //construct new checkerboard object. Load new anchorpane and set checkerboard equal to returned anchorpane. Height for pane is vbox height minus height of menubar
         Checkerboard newBoard = new Checkerboard(this.gridSize, this.gridSize, this.stage.getWidth(), this.vbox.getHeight() - menuBar.getHeight(), lightColor, darkColor);
-        newBoard.build();
-        checkerboard = newBoard.getBoard();
-//        if(colorScheme.equals("Default")){
-//            Checkerboard newBoard = new Checkerboard(this.gridSize, this.gridSize, this.stage.getWidth(), this.vbox.getHeight() - menuBar.getHeight(), Color.RED, Color.BLACK);
-//            newBoard.build();
-//            checkerboard = newBoard.getBoard();
-//        }else{
-//            Checkerboard newBoard = new Checkerboard(this.gridSize, this.gridSize, this.stage.getWidth(), this.vbox.getHeight() - menuBar.getHeight(), Color.SKYBLUE, Color.DARKBLUE);
-//            newBoard.build();
-//            checkerboard = newBoard.getBoard();
-//        }
         
-//        this.vbox.getChildren().add(newBoard.getBoard());
-        System.out.println(menuBar.getHeight());
+        //construct checkerboard anchorpane
+        newBoard.build();
+        
+        //retrieve checkerboard anchorpane from checkerboard object
+        checkerboard = newBoard.getBoard();
+        
+        //add checkerboard to vbox
         vbox.getChildren().add(checkerboard);
     }
     
-    //handle different grid sizes
+    //handle different grid sizes. I would much rather have had 1 method and get number of rows and columns from the menuitem title but cant figure that out
     @FXML
     private void handle3x3(ActionEvent event){
         this.gridSize = 3;
@@ -114,7 +109,7 @@ public class CheckerboardFXMLController implements Initializable {
         refresh();
     }
     
-    //handle color schemes
+    //handle color schemes.
     @FXML
     private void handleDefaultColor(ActionEvent event){
         this.colorScheme = "Default";
