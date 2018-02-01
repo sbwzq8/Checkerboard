@@ -12,7 +12,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -33,6 +32,7 @@ public class CheckerboardFXMLController implements Initializable {
     
     private Stage stage;
     
+    //default settings
     private int gridSize = 8;
     private String colorScheme = "Default";
     
